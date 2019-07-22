@@ -29,50 +29,51 @@ class URL:
         self.__size_download = int()
         self.__header_size = int()
 
-    def get_dns_time(self):
+    def __get_dns_time(self):
         return self.__dns_time
 
-    def get_status_code(self):
+    def __get_status_code(self):
         return self.__status_code
 
-    def get_connect_time(self):
+    def __get_connect_time(self):
         return self.__connect_time
 
-    def get_pre_transfer_time(self):
+    def __get_pre_transfer_time(self):
         return self.__pre_transfer_time
 
-    def get_start_transfer_time(self):
+    def __get_start_transfer_time(self):
         return self.__start_transfer_time
 
-    def get_total_time(self):
+    def __get_total_time(self):
         return self.__total_time
 
-    def get_transfer_speed(self):
+    def __get_transfer_speed(self):
         return self.__transfer_speed
 
-    def get_effect_site(self):
+    def __get_effect_site(self):
         return self.__effect_site
 
-    def get_content_length(self):
+    def __get_content_length(self):
         return self.__content_length
 
-    def get_size_download(self):
+    def __get_size_download(self):
         return self.__size_download
 
-    def get_header_size(self):
+    def __get_header_size(self):
         return self.__header_size
 
-    dns_time = property(get_dns_time, None)
-    status_code = property(get_status_code, None)
-    connect_time = property(get_connect_time, None)
-    pre_transfer_time = property(get_pre_transfer_time, None)
-    start_transfer_time = property(get_start_transfer_time, None)
-    total_time = property(get_total_time, None)
-    transfer_speed = property(get_transfer_speed, None)
-    effect_site = property(get_effect_site, None)
-    content_length = property(get_content_length, None)
-    size_download = property(get_size_download, None)
-    header_size = property(get_header_size, None)
+    # 利用property 创建只读属性
+    dns_time = property(__get_dns_time, None)
+    status_code = property(__get_status_code, None)
+    connect_time = property(__get_connect_time, None)
+    pre_transfer_time = property(__get_pre_transfer_time, None)
+    start_transfer_time = property(__get_start_transfer_time, None)
+    total_time = property(__get_total_time, None)
+    transfer_speed = property(__get_transfer_speed, None)
+    effect_site = property(__get_effect_site, None)
+    content_length = property(__get_content_length, None)
+    size_download = property(__get_size_download, None)
+    header_size = property(__get_header_size, None)
 
     def request_site(self):
         curl = pycurl.Curl()
