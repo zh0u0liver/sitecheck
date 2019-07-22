@@ -115,6 +115,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("host_file_name", action="store", help="spcify a hosts file name which need be resolved")
     parser.add_argument("-o", action="store", dest="output_file_name", help="output file name")
+    parse_result = None
     try:
         parse_result = parser.parse_args()
     except argparse.ArgumentError:
@@ -123,7 +124,8 @@ if __name__ == '__main__':
     except argparse.ArgumentTypeError:
         parser.print_help()
         exit(0)
-    except:
+    except Exception as err:
+        print(err)
         parser.print_help()
         exit(0)
 
@@ -132,27 +134,34 @@ if __name__ == '__main__':
 
     str_time = time.strftime("%Y%m%d%H%M%S",time.localtime())
     try:
+        str_title = "%50s%16s%16s%16s%16s%16s%16s%16s%51s%16s%16s%16s"
+        str_result = "%50s%16.2f%16s%16.2f%16.2f%16.2f%16.2f%16s%51s%16s%16s%16s"
         with open(host_file_name) as host_file, open(str_time + ".txt", "w") as output_file:
+            tup_title = ("URL","DNS Time","Return Code","Connected Time",
+                   "Prepare Time","Transfer Time","Total Time",
+                   "Transfer Speed","Effect URL",
+                   "Content Length","Download Size","Head Size")
+            print(str_title % tup_title)
+            output_file.write((str_title + "\n") % tup_title)
             for host_name in host_file.readlines():
                 sub = host_name.strip('\n')
                 if not sub: #or sub in host_name:
                     continue
                 site = URL(sub)
                 site.request_site()
-                print("%50s" % sub,
-                      "%8.2fms" % site.dns_time,
-                      "%6s" % site.status_code,
-                      "%8.2fms" % site.connect_time,
-                      "%8.2fms" % site.pre_transfer_time,
-                      "%8.2fms" % site.start_transfer_time,
-                      "%8.2fms" % site.total_time,
-                      "%10s" % site.transfer_speed,
-                      "%50s" % site.effect_site,
-                      "%10s" % site.content_length,
-                      "%10s" % site.size_download,
-                      "%10s" % site.header_size)
-
-                # print("dns_resolve_time:%8.2fms" % site.resolve_time, "ip_list:", site.ip_addr)
-                # output_file.write("%50s\t%8.2f\t%s\n"%(sub,dns_check_name.resolve_time,dns_check_name.ip_addr))
+                tup_result = (sub,
+                              site.dns_time,
+                              site.status_code,
+                              site.connect_time,
+                              site.pre_transfer_time,
+                              site.start_transfer_time,
+                              site.total_time,
+                              site.transfer_speed,
+                              site.effect_site,
+                              site.content_length,
+                              site.size_download,
+                              site.header_size)
+                print(str_result % tup_result)
+                output_file.write((str_result + "\n") % tup_result)
     except IOError as err:
         print("File Error:" + str(err))
