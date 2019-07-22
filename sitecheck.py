@@ -78,14 +78,17 @@ class URL:
     def request_site(self):
         curl = pycurl.Curl()
 
-        curl.setopt(pycurl.CONNECTTIMEOUT, 5)
-        curl.setopt(pycurl.TIMEOUT, 5)
+        curl.setopt(pycurl.CONNECTTIMEOUT, 10)
+        curl.setopt(pycurl.TIMEOUT, 10)
         curl.setopt(pycurl.NOPROGRESS, 1)
         curl.setopt(pycurl.FORBID_REUSE, 1)
         curl.setopt(pycurl.MAXREDIRS, 3)
         curl.setopt(pycurl.DNS_CACHE_TIMEOUT, 30)
         curl.setopt(pycurl.FOLLOWLOCATION, 1)
-        curl.setopt(curl.URL, self.__str_url)
+        curl.setopt(pycurl.SSL_VERIFYPEER, 0)
+        curl.setopt(pycurl.URL, self.__str_url)
+        # 否则可能会出现部分网站40x错误（403）
+        curl.setopt(pycurl.USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0')
 
         byte_io = BytesIO()  # 使用StringIO会出错，需要查一下
 
@@ -135,8 +138,8 @@ if __name__ == '__main__':
 
     str_time = time.strftime("%Y%m%d%H%M%S",time.localtime())
     try:
-        str_title = "%50s%16s%16s%16s%16s%16s%16s%16s%51s%16s%16s%16s"
-        str_result = "%50s%16.2f%16s%16.2f%16.2f%16.2f%16.2f%16s%51s%16s%16s%16s"
+        str_title = "%150s%16s%16s%16s%16s%16s%16s%16s%151s%16s%16s%16s"
+        str_result = "%150s%16.2f%16s%16.2f%16.2f%16.2f%16.2f%16s%151s%16s%16s%16s"
         with open(host_file_name) as host_file, open(str_time + ".txt", "w") as output_file:
             tup_title = ("URL","DNS Time","Return Code","Connected Time",
                          "Prepare Time","Transfer Time","Total Time",
