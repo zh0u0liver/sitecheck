@@ -139,9 +139,9 @@ if __name__ == '__main__':
         str_result = "%50s%16.2f%16s%16.2f%16.2f%16.2f%16.2f%16s%51s%16s%16s%16s"
         with open(host_file_name) as host_file, open(str_time + ".txt", "w") as output_file:
             tup_title = ("URL","DNS Time","Return Code","Connected Time",
-                   "Prepare Time","Transfer Time","Total Time",
-                   "Transfer Speed","Effect URL",
-                   "Content Length","Download Size","Head Size")
+                         "Prepare Time","Transfer Time","Total Time",
+                         "Transfer Speed","Effect URL",
+                         "Content Length","Download Size","Head Size")
             print(str_title % tup_title)
             output_file.write((str_title + "\n") % tup_title)
             for host_name in host_file.readlines():
