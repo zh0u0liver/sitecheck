@@ -166,3 +166,5 @@ if __name__ == '__main__':
                 output_file.write((str_result + "\n") % tup_result)
     except IOError as err:
         print("File Error:" + str(err))
+    except KeyboardInterrupt:
+        print("Stop polling website")
